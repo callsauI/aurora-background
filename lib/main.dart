@@ -4,27 +4,9 @@ import 'package:demo_app/org_freedesktop_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:workmanager/workmanager.dart';
 
-@pragma('vm:entry-point')
-void callbackDispatcher() {
-  Workmanager().executeTask((task, inputData) async {
-    WidgetsFlutterBinding.ensureInitialized();
-    switch (task) {
-      case "Simple":
-        WidgetsFlutterBinding.ensureInitialized();
-        final backgroundService = BackgroundService();
-        await backgroundService.init();
-        await Future.delayed(const Duration(seconds: 10000));
-        debugPrint("Simple task was completed");
-        return Future.value(true); // Task succeeded
-      default:
-        return Future.value(false);
-    }
-  });
-}
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
 
   runApp(const MyApp());
 }
@@ -56,12 +38,18 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  final backgroundService = BackgroundService();
 
-  void _runWorkmanagerTask() {
-    Workmanager().cancelAll();
-    Workmanager().registerOneOffTask(
-      "1",
-      "Simple",
+  @override
+  void initState() {
+    backgroundService.init();
+    super.initState();
+  }
+
+  void _testNotification() {
+    backgroundService.showNotification(
+      'Уведомление получено!',
+      'Нажмите подтвердить, чтобы проверить обработку уведомления',
     );
   }
 
@@ -73,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _runWorkmanagerTask,
+        onPressed: _testNotification,
         tooltip: 'Run task',
         child: const Icon(Icons.arrow_back_ios_new),
       ), // This trailing comma makes auto-formatting nicer for build methods.

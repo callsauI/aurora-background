@@ -5,7 +5,7 @@ class BackgroundService {
   late OrgFreedesktopNotifications object;
   final client = DBusClient.session();
 
-  Future<void> init() async {
+  init() {
     object = OrgFreedesktopNotifications(
       client,
       'org.freedesktop.Notifications',
@@ -15,13 +15,9 @@ class BackgroundService {
     object.actionInvoked.listen((event) async {
       // User pressed accept/deny from notification
       if (event.actionKey == "accept") {
-        showNotification('button tapped!', 'it works!');
+          showNotification('Кнопка обработана!', 'Все работает !');
       }
-    });
-
-    showNotification(
-      'Фоновая задача запущена!',
-      'Нажмите подтвердить чтобы проверить обработку нажатия на кнопку уведомления',
+      },
     );
   }
 
