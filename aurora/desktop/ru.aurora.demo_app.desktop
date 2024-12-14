@@ -1,0 +1,16 @@
+[Desktop Entry]
+Type=Application
+Name=demo_app
+Comment=A new Flutter project.
+Icon=ru.aurora.demo_app
+Exec=/usr/bin/ru.aurora.demo_app
+X-Nemo-Application-Type=silica-qt5
+
+[X-Application]
+Permissions=
+OrganizationName=ru.aurora
+ApplicationName=demo_app
+
+[X-Task Simple]
+Type=worker
+Permissions=PushNotifications
