@@ -38,7 +38,11 @@ class OrgFreedesktopNotifications extends DBusRemoteObject {
 
   OrgFreedesktopNotifications(
       DBusClient client, String destination, DBusObjectPath path)
-      : super(client, name: destination, path: path) {
+      : super(
+          client,
+          name: destination,
+          path: path,
+        ) {
     notificationClosed = DBusRemoteObjectSignalStream(
             object: this,
             interface: 'org.freedesktop.Notifications',

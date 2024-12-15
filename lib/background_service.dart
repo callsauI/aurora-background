@@ -5,7 +5,21 @@ class BackgroundService {
   late OrgFreedesktopNotifications object;
   final client = DBusClient.session();
 
-  init() {
+  init() async {
+    final client = DBusClient.session();
+
+    try {
+      // Request to own a D-Bus service name
+      await client.requestName('ru.aurora.demo_app');
+
+      print('Service registered: ru.aurora.demo_app');
+
+      // Register an object path and expose methods
+
+      print('Object registered: /ru/aurora/demo_app');
+    } catch (e) {
+      print('Failed to register service: $e');
+    }
     object = OrgFreedesktopNotifications(
       client,
       'org.freedesktop.Notifications',
